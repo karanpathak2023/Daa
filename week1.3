@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <math.h>
+
+// Jump search function
+int jump_search(int arr[], int size, int key, int *comparisons) {
+    int step = sqrt(size);
+    int prev = 0;
+    *comparisons = 0;
+
+    // Finding the block where key may be present
+    while (arr[(prev + step < size ? prev + step : size - 1)] < key) {
+        (*comparisons)++;
+        prev += step;
+        if (prev >= size)
+            return 0; // Key not found
+    }
+
+    // Linear search within the identified block
+    for (int i = prev; i < (prev + step < size ? prev + step : size); i++) {
+        (*comparisons)++;
+        if (arr[i] == key)
+            return 1; // Key found
+    }
+
+    return 0; // Key not found
+}
+
+int main() {
+    int T;
+    printf("Enter the number of test cases: ");
+    scanf("%d", &T);
+
+    for (int t = 0; t < T; t++) {
+        int n, key;
+        printf("Enter the size of array: ");
+        scanf("%d", &n);
+
+        int arr[n];
+        printf("Enter the elements of the array: ");
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]);
+        }
+
+        printf("Enter the key element to search: ");
+        scanf("%d", &key);
+
+        int comparisons = 0;
+        int result = jump_search(arr, n, key, &comparisons);
+
+        if (result)
+            printf("Present %d\n", comparisons);
+        else
+            printf("Not Present %d\n", comparisons);
+    }
+
+    return 0;
+}
