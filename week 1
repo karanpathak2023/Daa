@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+void linear_search(int arr[], int size, int key) {
+    int comparisons = 0;
+    for (int i = 0; i < size; i++) {
+        comparisons++;
+        if (arr[i] == key) {
+            printf("Present with %d comparisons\n", comparisons);
+            return;
+        }
+    }
+    printf("Not Present with %d comparisons\n", comparisons);
+}
+
+int main() {
+    int arrays[5][8] = {
+        {50, 2, 0, 25, 0},
+        {1, 0, 0, 3, 25, 1},
+        {34, 35, 65, 31, 25, 89, 64, 30},
+        {5, 977, 354, 244, 546, 355},
+        {23, 64, 13, 67, 43, 56}
+    };
+    int keys[5] = {25, 4, 64, 244, 63};
+    int sizes[5] = {5, 6, 8, 6, 6};
+
+    for (int i = 0; i < 5; i++) {
+        printf("Input: ");
+        for (int j = 0; j < sizes[i]; j++) {
+            printf("%d ", arrays[i][j]);
+        }
+        printf("\nKey: %d\n", keys[i]);
+        linear_search(arrays[i], sizes[i], keys[i]);
+    }
+
+    return 0;
+}
