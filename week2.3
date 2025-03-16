@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+// Function to count pairs with the given difference
+int count_pairs(int arr[], int size, int k) {
+    int count = 0;
+    int hash[10000] = {0}; // Assuming the largest element is less than 10000
+
+    // Store the frequencies of array elements
+    for (int i = 0; i < size; i++) {
+        hash[arr[i]]++;
+    }
+
+    // Count pairs with the given difference
+    for (int i = 0; i < size; i++) {
+        if (arr[i] - k >= 0) {
+            count += hash[arr[i] - k];
+        }
+        if (arr[i] + k < 10000) {
+            count += hash[arr[i] + k];
+        }
+
+        // To avoid counting the same pair twice
+        hash[arr[i]]--;
+    }
+
+    return count;
+}
+
+int main() {
+    int T;
+    printf("Enter the number of test cases: ");
+    scanf("%d", &T);
+
+    for (int t = 0; t < T; t++) {
+        int n, k;
+        printf("Enter the size of array: ");
+        scanf("%d", &n);
+
+        int arr[n];
+        printf("Enter the elements of the array: ");
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]);
+        }
+
+        printf("Enter the key difference value: ");
+        scanf("%d", &k);
+
+        int result = count_pairs(arr, n, k);
+        printf("Total count: %d\n", result);
+    }
+
+    return 0;
+}
