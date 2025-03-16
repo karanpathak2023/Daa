@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int comparisons = 0; // To count the number of comparisons
+int swaps = 0;       // To count the number of swaps
+
+// Swap function
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+    swaps++;
+}
+
+// Partition function
+int partition(int arr[], int low, int high) {
+    // Select a random pivot
+    srand(time(0)); // Seed the random number generator
+    int random_index = low + rand() % (high - low + 1);
+    swap(&arr[random_index], &arr[high]);
+
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        comparisons++;
+        if (arr[j] <= pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return i + 1;
+}
+
+// QuickSort function
+void quick_sort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        // Recursively sort the subarrays
+        quick_sort(arr, low, pi - 1);
+        quick_sort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int T;
+    printf("Enter the number of test cases: ");
+    scanf("%d", &T);
+
+    for (int t = 0; t < T; t++) {
+        int n;
+        printf("Enter the size of array: ");
+        scanf("%d", &n);
+
+        int arr[n];
+        printf("Enter the elements of the array: ");
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]);
+        }
+
+        // Reset counters
+        comparisons = 0;
+        swaps = 0;
+
+        // Perform QuickSort
+        quick_sort(arr, 0, n - 1);
+
+        // Print the sorted array
+        printf("Sorted array: ");
+        for (int i = 0; i < n; i++) {
+            printf("%d ", arr[i]);
+        }
+        printf("\n");
+
+        // Print the total comparisons and swaps
+        printf("Comparisons = %d\n", comparisons);
+        printf("Swaps = %d\n", swaps);
+    }
+
+    return 0;
+}
